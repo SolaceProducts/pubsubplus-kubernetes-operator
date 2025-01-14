@@ -423,6 +423,12 @@ type Monitoring struct {
 	//+kubebuilder:default:=false
 	// Defines if Prometheus Exporter should include rates
 	IncludeRates bool `json:"includeRates,omitempty"`
+
+	//+optional
+	//+kubebuilder:validation:Type:=object
+	//+kubebuilder:default:={}
+	// Resources allows adding provider-specific resources to the Prometheus Exporter container
+	Resources corev1.ResourceRequirements `json:"resources,omitempty"`
 }
 
 // INSERT ADDITIONAL STATUS FIELD - define observed state of cluster

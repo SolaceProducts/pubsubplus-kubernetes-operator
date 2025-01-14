@@ -121,6 +121,7 @@ func (r *PubSubPlusEventBrokerReconciler) updateDeploymentForPrometheusExporter(
 								Type: corev1.SeccompProfileTypeRuntimeDefault,
 							},
 						},
+						Resources: eventBroker.Spec.Monitoring.Resources,
 					},
 				},
 				ImagePullSecrets: getExporterImagePullSecrets(eventBroker.Spec.Monitoring.MonitoringImage),

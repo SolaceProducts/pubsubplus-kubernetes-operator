@@ -490,6 +490,15 @@ Monitoring specifies a Prometheus monitoring endpoint for the event broker
         </td>
         <td>false</td>
       </tr><tr>
+        <td><b><a href="#pubsubpluseventbrokerspecmonitoringresources">resources</a></b></td>
+        <td>object</td>
+        <td>
+          Defines container resources for the Promethes Exporter.<br/>
+          <br/>
+            <i>Default</i>: {}<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
         <td><b>sslVerify</b></td>
         <td>boolean</td>
         <td>
@@ -722,6 +731,108 @@ MetricsEndpoint defines parameters to configure monitoring for the Prometheus Ex
           Defines the service type for the Metrics Service Endpoint<br/>
           <br/>
             <i>Default</i>: ClusterIP<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### PubSubPlusEventBroker.spec.monitoring.resources
+<sup><sup>[↩ Parent](#pubsubpluseventbrokerspecmonitoring)</sup></sup>
+
+
+
+Resources defines parameters to configure resources for the Prometheus Exporter.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><b><a href="#pubsubpluseventbrokerspecmonitoringresourceslimits">limits</a></b></td>
+        <td>object</td>
+        <td>
+          Define the container resource limits<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><b><a href="#pubsubpluseventbrokerspecmonitoringresourcesrequests">requests</a></b></td>
+        <td>object</td>
+        <td>
+          Define the container resource requests<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### PubSubPlusEventBroker.spec.monitoring.resources.limits
+<sup><sup>[↩ Parent](#pubsubpluseventbrokerspecmonitoringresources)</sup></sup>
+
+
+
+Limits defines parameters to configure resource limits for the Prometheus Exporter.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><b>cpu</b></td>
+        <td>string</td>
+        <td>
+          Define the container cpu resource limit<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><b>memory</b></td>
+        <td>string</td>
+        <td>
+          Define the container memory resource limit<br/>
+        </td>
+        <td>false</td>
+      </tr></tbody>
+</table>
+
+
+### PubSubPlusEventBroker.spec.monitoring.resources.requests
+<sup><sup>[↩ Parent](#pubsubpluseventbrokerspecmonitoringresources)</sup></sup>
+
+
+
+requests defines parameters to configure resource requests for the Prometheus Exporter.
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Required</th>
+        </tr>
+    </thead>
+    <tbody><tr>
+        <td><b>cpu</b></td>
+        <td>string</td>
+        <td>
+          Define the container cpu resource request<br/>
+        </td>
+        <td>false</td>
+      </tr><tr>
+        <td><b>memory</b></td>
+        <td>string</td>
+        <td>
+          Define the container memory resource request<br/>
         </td>
         <td>false</td>
       </tr></tbody>

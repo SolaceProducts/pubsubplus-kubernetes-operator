@@ -17,14 +17,16 @@ limitations under the License.
 package controllers
 
 import (
+	"time"
+
 	pubsubplus "github.com/SolaceProducts/pubsubplus-operator/api/v1beta1"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
-	"time"
 )
 
 var _ = Describe("Monitoring Exporter Test", func() {
@@ -35,6 +37,10 @@ var _ = Describe("Monitoring Exporter Test", func() {
 		tls_secret        = "monitoring-tls"
 		monitoring_secret = "monitoring-user-secret"
 		namespace         = "default"
+		memLimits         = "1Gi"
+		cpuLimits         = "1"
+		memRequests       = "500Mi"
+		cpuRequests       = "500m"
 	)
 
 	Context("When cluster is created, Prometheus Monitoring Exporter is set up", func() {
@@ -100,6 +106,16 @@ var _ = Describe("Monitoring Exporter Test", func() {
 								ServicePort:   7629,
 								ContainerPort: 7629,
 							},
+							Resources: corev1.ResourceRequirements{
+								Limits: map[corev1.ResourceName]resource.Quantity{
+									corev1.ResourceCPU:    resource.MustParse(cpuLimits),
+									corev1.ResourceMemory: resource.MustParse(memLimits),
+								},
+								Requests: map[corev1.ResourceName]resource.Quantity{
+									corev1.ResourceCPU:    resource.MustParse(cpuRequests),
+									corev1.ResourceMemory: resource.MustParse(memRequests),
+								},
+							},
 						},
 					},
 				}
@@ -116,6 +132,12 @@ var _ = Describe("Monitoring Exporter Test", func() {
 					monitoringDeployment := &appsv1.Deployment{}
 					monitoringExporter := getObjectName("PrometheusExporterDeployment", brokerMNonHA.Name)
 					err := k8sClient.Get(ctx, types.NamespacedName{Name: monitoringExporter, Namespace: brokerMNonHA.Namespace}, monitoringDeployment)
+					// confirm the user provided resources are applied
+					Expect(monitoringDeployment.Spec.Template.Spec.Containers[0].Resources.Limits.Cpu().String()).To(Equal(cpuLimits))
+					Expect(monitoringDeployment.Spec.Template.Spec.Containers[0].Resources.Limits.Memory().String()).To(Equal(memLimits))
+					Expect(monitoringDeployment.Spec.Template.Spec.Containers[0].Resources.Requests.Cpu().String()).To(Equal(cpuRequests))
+					Expect(monitoringDeployment.Spec.Template.Spec.Containers[0].Resources.Requests.Memory().String()).To(Equal(memRequests))
+
 					return err == nil
 				}).WithTimeout(90 * time.Second).Should(BeTrue())
 
